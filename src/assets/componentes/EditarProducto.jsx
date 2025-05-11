@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FormularioProducto from "./FormularioProducto";
 
 export default function EditarProducto() {
@@ -10,6 +10,14 @@ export default function EditarProducto() {
   };
 
   const handleGuardar = (productoActualizado) => {
+    if (
+      !productoActualizado.descripcion ||
+      productoActualizado.precioUnitario <= 0 ||
+      productoActualizado.stock < 0
+    ) {
+      alert("Completa todos los campos");
+      return;
+    }
     setProductos((prev) =>
       prev.map((prod) =>
         prod.id === productoActualizado.id ? productoActualizado : prod
@@ -22,6 +30,10 @@ export default function EditarProducto() {
     setProductoEditando(null);
   };
 
+  useEffect(() => {
+    console.log("Productos actualizados:", productos);
+  }, [productos]);
+
   return (
     <div>
       <FormularioProducto
@@ -33,6 +45,7 @@ export default function EditarProducto() {
         <div className="modal-editar">
           <h2>Editar Producto</h2>
           <form
+            className="form-editar-producto"
             onSubmit={(e) => {
               e.preventDefault();
               handleGuardar({
@@ -43,11 +56,15 @@ export default function EditarProducto() {
               });
             }}
           >
-            <div>
+            <div className="form-group">
               <label>ID:</label>
-              <input value={productoEditando.id} disabled />
+              <input
+                value={productoEditando.id}
+                disabled
+                className="input-disabled"
+              />
             </div>
-            <div>
+            <div className="form-group">
               <label>Descripción:</label>
               <input
                 value={productoEditando.descripcion}
@@ -57,9 +74,10 @@ export default function EditarProducto() {
                     descripcion: e.target.value,
                   })
                 }
+                className="input-text"
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>Precio Unitario:</label>
               <input
                 type="number"
@@ -70,9 +88,10 @@ export default function EditarProducto() {
                     precioUnitario: Number(e.target.value),
                   })
                 }
+                className="input-number"
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>Descuento (%):</label>
               <input
                 type="number"
@@ -83,9 +102,10 @@ export default function EditarProducto() {
                     descuento: Number(e.target.value),
                   })
                 }
+                className="input-number"
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>Stock:</label>
               <input
                 type="number"
@@ -96,12 +116,21 @@ export default function EditarProducto() {
                     stock: Number(e.target.value),
                   })
                 }
+                className="input-number"
               />
             </div>
-            <button type="submit">Guardar</button>
-            <button type="button" onClick={handleCancelar} style={{ marginLeft: 8 }}>
-              Cancelar
-            </button>
+            <div className="form-actions">
+              <button type="submit" className="btn btn-guardar">
+                Guardar
+              </button>
+              <button
+                type="button"
+                onClick={handleCancelar}
+                className="btn btn-cancelar"
+              >
+                Cancelar
+              </button>
+            </div>
           </form>
         </div>
       )}
