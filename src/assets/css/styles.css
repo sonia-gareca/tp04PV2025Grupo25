@@ -1,0 +1,15 @@
+.btn_eliminar{
+    background-color: #ff4d4d;
+    color: whitesmoke;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 0.9em;
+
+}
+
+.btn_eliminar:hover {
+    background-color: #e60000;
+}

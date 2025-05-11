@@ -5,6 +5,7 @@ export default function App() {
     <div>
       <h1>Gestión de Productos</h1>
       <FormularioProducto />
+      <eliminarProducto />
     </div>
   );
 }

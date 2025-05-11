@@ -1,4 +1,5 @@
 import { useState } from "react";
+import '../css/styles.css';
 
 const  FormularioProducto = ()=> {
 
@@ -52,6 +53,26 @@ const  FormularioProducto = ()=> {
       stock: "",
     });
   }
+
+    // Funcion que elimina un producto de la lista 
+    // y actualiza el stock
+    const eliminarProducto = (id) => {
+      const nuevaListaProductos = productos.map((prod) => {
+        if (prod.id === id) {
+          const stockActual = parseInt(prod.stock, 10);
+          if (stockActual > 0) {
+            alert(`¿Desea eliminar el producto "${prod.descripcion}"?`)
+            return{ ...prod, stock: stockActual - 1
+            };
+          } else {
+            alert(`Ups! Parece que "${prod.descripcion}" no tiene stock disponible!`);
+          return prod; //Si no hay stock, la lista se renderiza sin cambios
+          }
+        }
+        return prod; //La lista se actualiza con cambios en el stock
+      });
+      setProductos(nuevaListaProductos);
+    };
 
 
     return (
@@ -118,6 +139,7 @@ const  FormularioProducto = ()=> {
             Descuento: {prod.descuento}% <br />
             Precio con Descuento: ${prod.precioConDescuento} <br />
             Stock: {prod.stock} unidades
+            <button className="btn_eiminar" onClick={() => eliminarProducto(prod.id)}>Eliminar Producto</button>
           </li>
         ))}
       </ul>
