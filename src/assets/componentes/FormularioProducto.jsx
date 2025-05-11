@@ -1,49 +1,39 @@
 import { useState } from "react";
 import '../css/styles.css';
 
-const  FormularioProducto = ()=> {
+const FormularioProducto = ({ productos, setProductos, onEditar }) => {
+  const [producto, setProducto] = useState({
+    id: "",
+    descripcion: "",
+    precioUnitario: "",
+    descuento: "",
+    stock: "",
+  });
 
-    const [productos, setProductos] = useState([]);
-
-    const [producto, setProducto] = useState({
-        id: "",
-        descripcion: "",
-        precioUnitario: "",
-        descuento: "",
-        stock: "",
-    });
-
-    // Función para calcular el precio con descuento
   const calcularPrecioConDescuento = () => {
     return producto.precioUnitario * (1 - producto.descuento / 100);
   };
 
-     // Manejo de cambios en el formulario
-    const handleChange = (e) => {
-        setProducto({
-            ...producto,
-            [e.target.name]: e.target.value,
-        });
-    }
-    // Agregar un producto
+  const handleChange = (e) => {
+    const { name, value, type } = e.target;
+    setProducto({
+      ...producto,
+      [name]: type === "number" ? Number(value) : value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Verificar si el ID ya existe
-  const idDuplicado = productos.some((p) => p.id === producto.id);
-  if (idDuplicado) {
-    alert("El ID ya existe. Por favor, ingresa un ID único.");
-    return;
-  }
-
-    const newProduct = {
+    const idDuplicado = productos.some((p) => p.id === producto.id);
+    if (idDuplicado) {
+      alert("El ID ya existe. Por favor, ingresa un ID único.");
+      return;
+    }
+   const newProduct = {
       ...producto,
       precioConDescuento: calcularPrecioConDescuento(),
     };
-
     setProductos([...productos, newProduct]);
-
-    // Limpiar formulario
     setProducto({
       id: "",
       descripcion: "",
@@ -52,31 +42,26 @@ const  FormularioProducto = ()=> {
       precioConDescuento: "",
       stock: "",
     });
-  }
+  };
 
-    // Funcion que elimina un producto de la lista 
-    // y actualiza el stock
-    const eliminarProducto = (id) => {
-      const nuevaListaProductos = productos.map((prod) => {
-        if (prod.id === id) {
-          const stockActual = parseInt(prod.stock, 10);
-          if (stockActual > 0) {
-            alert(`¿Desea eliminar el producto "${prod.descripcion}"?`)
-            return{ ...prod, stock: stockActual - 1
-            };
-          } else {
-            alert(`Ups! Parece que "${prod.descripcion}" no tiene stock disponible!`);
-          return prod; //Si no hay stock, la lista se renderiza sin cambios
-          }
+  const eliminarProducto = (id) => {
+    const nuevaListaProductos = productos.map((prod) => {
+      if (prod.id === id) {
+        const stockActual = parseInt(prod.stock, 10);
+        if (stockActual > 0) {
+          alert(`¿Desea eliminar el producto "${prod.descripcion}"?`);
+          return { ...prod, stock: stockActual - 1 };
+        } else {
+          alert(`Ups! Parece que "${prod.descripcion}" no tiene stock disponible!`);
+          return prod;
         }
-        return prod; //La lista se actualiza con cambios en el stock
-      });
-      setProductos(nuevaListaProductos);
-    };
+      }
+      return prod;
+    });
+    setProductos(nuevaListaProductos);
+  };
 
-
-    return (
-        
+  return (
     <div>
       <h1>Agregar Producto</h1>
       <form onSubmit={handleSubmit}>
@@ -98,7 +83,6 @@ const  FormularioProducto = ()=> {
             onChange={handleChange}
           />
         </div>
-        
         <div>
           <label>Precio Unitario:</label>
           <input
@@ -108,7 +92,7 @@ const  FormularioProducto = ()=> {
             onChange={handleChange}
           />
         </div>
-        < div>
+        <div>
           <label>Descuento (%):</label>
           <input
             type="number"
@@ -140,12 +124,12 @@ const  FormularioProducto = ()=> {
             Precio con Descuento: ${prod.precioConDescuento} <br />
             Stock: {prod.stock} unidades
             <button className="btn_eiminar" onClick={() => eliminarProducto(prod.id)}>Eliminar Producto</button>
+            <button className="btn_editar" onClick={() => onEditar(prod)}>Editar</button>
           </li>
         ))}
       </ul>
     </div>
   );
-  };
-    
+};
 
 export default FormularioProducto;
