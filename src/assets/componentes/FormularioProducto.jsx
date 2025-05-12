@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import '../css/styles.css';
 
 const FormularioProducto = ({ productos, setProductos, onEditar }) => {
@@ -9,7 +9,7 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
     descuento: "",
     stock: "",
   });
-
+const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
   const calcularPrecioConDescuento = () => {
     return producto.precioUnitario * (1 - producto.descuento / 100);
   };
@@ -43,6 +43,20 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
       stock: "",
     });
   };
+
+//------------------BUSQUEDA-----------------------------------
+// Función para manejar la búsqueda
+    const BuscarUnProducto = (e) => {
+      setSearchTerm(e.target.value); // Actualiza el término de búsqueda
+    };
+  
+    // Filtrar productos según el término de búsqueda
+     const filteredProducts = useMemo(() => {
+       return productos.filter((prod) =>
+       prod.id.toLowerCase().includes(searchTerm.toLowerCase())
+       );
+     }, [productos, searchTerm]);
+//-----------------------------------------------------------------
 
   const eliminarProducto = (id) => {
     const nuevaListaProductos = productos.map((prod) => {
@@ -128,6 +142,36 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
           </li>
         ))}
       </ul>
+
+      <h2>Buscar Producto</h2>
+       <input
+         type="text"
+         placeholder="Buscar por ID"
+         value={searchTerm}
+         onChange={(e) => BuscarUnProducto(e)} // Evento para manejar la búsqueda
+       />
+       {searchTerm !== "" && (
+         <div>
+           <ul>
+             {filteredProducts.map((prod) => (
+               <li key={prod.id}>
+                 <strong>{prod.descripcion}</strong>
+                 <br />
+                 <span>ID: {prod.id}</span>
+                 <br />
+                 Precio Unitario: ${prod.precioUnitario}
+                 <br />
+                 Descuento: {prod.descuento}%
+                 <br />
+                 Precio con Descuento: ${prod.precioConDescuento}
+                 <br />
+                 Stock: {prod.stock} unidades
+               </li>
+             ))}
+           </ul>
+         </div>
+       )}
+
     </div>
   );
 };
