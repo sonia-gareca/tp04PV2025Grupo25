@@ -117,3 +117,25 @@ a:hover {
 .btn-cancelar:hover {
     background-color: #c82333;
 }
+.buscador {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.buscador input[type="text"] {
+    padding: 8px 12px;
+    border: 1.5px solid #007bff;
+    border-radius: 6px;
+    background-color: #f0f8ff;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 200px; 
+}
+
+.buscador input[type="text"]:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 5px #007bff33;
+}
