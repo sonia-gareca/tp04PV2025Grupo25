@@ -118,6 +118,7 @@ a:hover {
     background-color: #c82333;
 
 }
+*/
 .buscador {
     display: flex;
     gap: 30px;
@@ -140,7 +141,7 @@ a:hover {
     outline: none;
     box-shadow: 0 0 5px #007bff33;
 
-}*/
+}
 
 body {
   font-family: 'Poppins', sans-serif;
