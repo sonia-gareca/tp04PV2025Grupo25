@@ -147,13 +147,16 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
       </ul>
 
       <h2>Buscar Producto</h2>
+      {/* buscador por ID */}
       <div className="buscador">
-        <input
+        <input 
           type="text"
           placeholder="Buscar por ID"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
+        {/* Buscar por Marca o Nombre */}
         <input
           type="text"
           placeholder="Buscar por Marca o Nombre"
