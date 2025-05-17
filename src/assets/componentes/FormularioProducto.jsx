@@ -8,6 +8,7 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
     precioUnitario: "",
     descuento: "",
     stock: "",
+    eliminado: false, // NUEVO CAMPO BOOLEANO
   });
 const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
   const calcularPrecioConDescuento = () => {
@@ -32,6 +33,7 @@ const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
    const newProduct = {
       ...producto,
       precioConDescuento: calcularPrecioConDescuento(),
+      eliminado: false, // asegurás que el producto no esté "eliminado"
     };
     setProductos([...productos, newProduct]);
     setProducto({
@@ -124,7 +126,7 @@ const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Agregar Producto</button>
+        <button  className="btn_agregar" type="submit">Agregar Producto</button>
       </form>
 
       <h2>Lista de Productos</h2>

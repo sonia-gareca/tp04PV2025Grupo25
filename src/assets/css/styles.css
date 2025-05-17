@@ -1,4 +1,4 @@
-.btn_eliminar{
+/*.btn_eiminar{
     background-color: #ff4d4d;
     color: whitesmoke;
     border: none;
@@ -8,6 +8,7 @@
     margin-left: 10px;
     font-size: 0.9em;
 }
+
 .btn_eliminar:hover {
     background-color: #e60000;
 }
@@ -80,7 +81,6 @@ a:hover {
 .input-text,
 .input-number,
 .input-disabled {
-    width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -116,4 +116,112 @@ a:hover {
 }
 .btn-cancelar:hover {
     background-color: #c82333;
+}*/
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f4fb; /* Muy suave lila claro */
+  color: #19033e; /* Lila oscuro para texto */
+  margin: 0;
+  padding: 0 20px 40px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #32089d; /* Lila medio */
+  margin-bottom: 20px;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+}
+p, span, label {
+  color: #6e5f8f; /* Lila grisáceo */
+  line-height: 1.6;
+  font-size: 1em;
+  letter-spacing: 0.03em;
+}
+.input-text,
+.input-number,
+.input-disabled 
+.input-disabled
+.form-group{
+  padding: 10px 5px; 
+  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid #b9a8d8; /* lila claro */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #faf8ff; /* fondo muy suave */
+  color: #4b3b67;
+}
+
+.btn,.btn_agregar, .btn_eiminar, .btn_guardar, .btn_cancelar, .btn_editar {
+  border-radius: 10px;       /* Bordes redondeados */
+  padding: 10px 20px;        /* Más espacio interno */
+  font-size: 1em;          /* Letra un poco más grande */
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 6px rgba(105, 87, 175, 0.3);
+  margin-left: 10px;         /* Espacio entre botones */
+  color: white;
+  font-weight: 600;
+}
+
+.btn_eiminar, .btn_editar {
+  background-color: #a362ff;
+}
+.btn_eiminar:hover {
+  background-color: #7b32ff;
+  box-shadow: 0 5px 12px rgba(123, 50, 255, 0.6);
+}
+.btn_editar:hover {
+  background-color: #5b2dff;
+  box-shadow: 0 5px 12px rgba(91, 45, 255, 0.6);
+}
+.form-actions {
+     border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 6px rgba(105, 87, 175, 0.3);
+  color: white;
+  font-weight: 600;
+}
+
+/* Botón guardar - tonos lilas verdosos */
+.btn_guardar {
+  background-color: #7b6ffb;
+}
+.btn_guardar:hover {
+  background-color: #544dff;
+  box-shadow: 0 5px 12px rgba(84, 77, 255, 0.6);
+}
+.btn_agregar{
+  background-color: #7b6ffb;
+}
+.btn_agregar:hover {
+  background-color: #544dff;
+  box-shadow: 0 5px 12px rgba(84, 77, 255, 0.6);
+}
+.btn-cancelar {
+    background-color: #544dff;
+}
+   
+.btn-cancelar:hover {
+    background-color: #544dff ;
+    box-shadow: 0 5px 12px rgba(91, 45, 255, 0.6);
+}
+.btn-guardar {
+    background-color: #544dff;
+    box-shadow: 0 5px 12px rgba(84, 77, 255, 0.6);
+}
+.btn-guardar:hover {
+   background-color: #544dff;
+    box-shadow: 0 5px 12px rgba(91, 45, 255, 0.6);
 }
