@@ -10,7 +10,9 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
     stock: "",
     eliminado: false, // NUEVO CAMPO BOOLEANO
   });
-const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para BUSQUEDA por ID
+  const [searchMarcaNombre, setSearchMarcaNombre] = useState(""); // Estado para BUSQUEDA por marca/nombre
+
   const calcularPrecioConDescuento = () => {
     return producto.precioUnitario * (1 - producto.descuento / 100);
   };
@@ -30,7 +32,7 @@ const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
       alert("El ID ya existe. Por favor, ingresa un ID único.");
       return;
     }
-   const newProduct = {
+    const newProduct = {
       ...producto,
       precioConDescuento: calcularPrecioConDescuento(),
       eliminado: false, // asegurás que el producto no esté "eliminado"
@@ -46,18 +48,19 @@ const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
     });
   };
 
-//------------------BUSQUEDA-----------------------------------
-// Función para manejar la búsqueda
-    const BuscarUnProducto = (e) => {
-      setSearchTerm(e.target.value); // Actualiza el término de búsqueda
-    };
-  
-    // Filtrar productos según el término de búsqueda
-     const filteredProducts = useMemo(() => {
-       return productos.filter((prod) =>
-       prod.id.toLowerCase().includes(searchTerm.toLowerCase())
-       );
-     }, [productos, searchTerm]);
+  //------------------BUSQUEDA-----------------------------------
+  // Filtrado de productos según el término de búsqueda
+  // Estado para BUSQUEDA por marca/nombre (el dato es extraído del campo "descripcion")
+  const filteredProducts = useMemo(() => {
+    return productos.filter((prod) => {
+      const matchId = prod.id.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchDesc = prod.descripcion.toLowerCase().includes(searchMarcaNombre.toLowerCase());
+      if (searchTerm && searchMarcaNombre) return matchId && matchDesc;
+      if (searchTerm) return matchId;
+      if (searchMarcaNombre) return matchDesc;
+      return false; // Si ambas están vacías, no muestra nada
+    });
+  }, [productos, searchTerm, searchMarcaNombre]);
 //-----------------------------------------------------------------
 
   const eliminarProducto = (id) => {
@@ -146,34 +149,44 @@ const [searchTerm, setSearchTerm] = useState(""); // Estado para la BUSQUEDA
       </ul>
 
       <h2>Buscar Producto</h2>
-       <input
-         type="text"
-         placeholder="Buscar por ID"
-         value={searchTerm}
-         onChange={(e) => BuscarUnProducto(e)} // Evento para manejar la búsqueda
-       />
-       {searchTerm !== "" && (
-         <div>
-           <ul>
-             {filteredProducts.map((prod) => (
-               <li key={prod.id}>
-                 <strong>{prod.descripcion}</strong>
-                 <br />
-                 <span>ID: {prod.id}</span>
-                 <br />
-                 Precio Unitario: ${prod.precioUnitario}
-                 <br />
-                 Descuento: {prod.descuento}%
-                 <br />
-                 Precio con Descuento: ${prod.precioConDescuento}
-                 <br />
-                 Stock: {prod.stock} unidades
-               </li>
-             ))}
-           </ul>
-         </div>
-       )}
+      {/* buscador por ID */}
+      <div className="buscador">
+        <input 
+          type="text"
+          placeholder="Buscar por ID"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
+        {/* Buscar por Marca o Nombre */}
+        <input
+          type="text"
+          placeholder="Buscar por Marca o Nombre"
+          value={searchMarcaNombre}
+          onChange={(e) => setSearchMarcaNombre(e.target.value)}
+        />
+      </div>
+      {(searchTerm !== "" || searchMarcaNombre !== "") && (
+        <div>
+          <ul>
+            {filteredProducts.map((prod) => (
+              <li key={prod.id}>
+                <strong>{prod.descripcion}</strong>
+                <br />
+                <span>ID: {prod.id}</span>
+                <br />
+                Precio Unitario: ${prod.precioUnitario}
+                <br />
+                Descuento: {prod.descuento}%
+                <br />
+                Precio con Descuento: ${prod.precioConDescuento}
+                <br />
+                Stock: {prod.stock} unidades
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
