@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import '../css/styles.css';
 
 const FormularioProducto = ({ productos, setProductos, onEditar }) => {
@@ -48,27 +48,34 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
     });
   };
 
+  // Funcion para ocultar un producto
+  const eliminarProducto = useCallback((id) => {
+    setProductos(productos.map(prod => 
+      prod.id === id ? { ...prod, eliminado: true} : prod));
+  }, [productos, setProductos]);
+
   //------------------BUSQUEDA-----------------------------------
   // Filtrado de productos según el término de búsqueda
   // Estado para BUSQUEDA por marca/nombre (el dato es extraído del campo "descripcion")
   const filteredProducts = useMemo(() => {
     return productos.filter((prod) => {
+      if (prod.eliminado) return false; //Para no incluir productos eliminados en la busqueda
       const matchId = prod.id.toLowerCase().includes(searchTerm.toLowerCase());
       const matchDesc = prod.descripcion.toLowerCase().includes(searchMarcaNombre.toLowerCase());
       if (searchTerm && searchMarcaNombre) return matchId && matchDesc;
       if (searchTerm) return matchId;
       if (searchMarcaNombre) return matchDesc;
-      return false; // Si ambas están vacías, no muestra nada
+      return true; // Si ambas están vacías, muestra todos los no eliminados
     });
   }, [productos, searchTerm, searchMarcaNombre]);
 //-----------------------------------------------------------------
-
-  const eliminarProducto = (id) => {
+  //Funcion para eliminar un producto del stock
+  const eliminarProductoStock = (id) => {
     const nuevaListaProductos = productos.map((prod) => {
       if (prod.id === id) {
         const stockActual = parseInt(prod.stock, 10);
         if (stockActual > 0) {
-          alert(`¿Desea eliminar el producto "${prod.descripcion}"?`);
+          alert(`¿Desea eliminar el producto "${prod.descripcion}" del stock?`);
           return { ...prod, stock: stockActual - 1 };
         } else {
           alert(`Ups! Parece que "${prod.descripcion}" no tiene stock disponible!`);
@@ -135,6 +142,8 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
       <h2>Lista de Productos</h2>
       <ul>
         {productos.map((prod) => (
+          //Aqui solo se renderiza si el producto no esta eliminado
+          !prod.eliminado && (
           <li key={prod.id}>
             <strong>{prod.descripcion}</strong><br />
             <span>ID: {prod.id}</span><br />
@@ -142,9 +151,11 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
             Descuento: {prod.descuento}% <br />
             Precio con Descuento: ${prod.precioConDescuento} <br />
             Stock: {prod.stock} unidades
-            <button className="btn_eiminar" onClick={() => eliminarProducto(prod.id)}>Eliminar Producto</button>
+            <button className="btn_eliminar" onClick={() => eliminarProducto(prod.id)}>Eliminar Producto</button>
             <button className="btn_editar" onClick={() => onEditar(prod)}>Editar</button>
+            <button className="btn_eliminar_stock" onClick={() => eliminarProductoStock(prod.id)}>Eliminar Producto del Stock</button>
           </li>
+          )
         ))}
       </ul>
 
@@ -182,6 +193,7 @@ const FormularioProducto = ({ productos, setProductos, onEditar }) => {
                 Precio con Descuento: ${prod.precioConDescuento}
                 <br />
                 Stock: {prod.stock} unidades
+                <button className="btn_eliminar" onClick={() => eliminarProducto(prod.id)}>Eliminar Producto</button>
               </li>
             ))}
           </ul>
