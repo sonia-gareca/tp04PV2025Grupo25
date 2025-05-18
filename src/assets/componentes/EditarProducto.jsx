@@ -4,6 +4,7 @@ import FormularioProducto from "./FormularioProducto";
 export default function EditarProducto() {
   const [productos, setProductos] = useState([]);
   const [productoEditando, setProductoEditando] = useState(null);
+  const [mensaje, setMensaje] = useState(""); // Nuevo estado
 
   const handleEditar = (producto) => {
     setProductoEditando(producto);
@@ -24,6 +25,7 @@ export default function EditarProducto() {
       )
     );
     setProductoEditando(null);
+    setMensaje("Producto guardado correctamente"); // Usar el nuevo estado
   };
 
   const handleCancelar = () => {
@@ -36,6 +38,7 @@ export default function EditarProducto() {
 
   return (
     <div>
+      {mensaje && <div className="mensaje-exito">{mensaje}</div>}
       <FormularioProducto
         productos={productos}
         setProductos={setProductos}
