@@ -1,4 +1,4 @@
-/*.btn_eiminar{
+.btn_eliminar{
     background-color: #ff4d4d;
     color: whitesmoke;
     border: none;
@@ -10,7 +10,7 @@
 }
 
 .btn_eliminar:hover {
-    background-color: #e60000;
+    background-color: darkred;
 }
 .btn {
     background-color: #007bff;
@@ -183,7 +183,7 @@ p, span, label {
   color: #4b3b67;
 }
 
-.btn,.btn_agregar, .btn_eiminar, .btn_guardar, .btn_cancelar, .btn_editar {
+.btn,.btn_agregar, .btn_eliminar, .btn_eliminar_stock, .btn_guardar, .btn_cancelar, .btn_editar {
   border-radius: 10px;       /* Bordes redondeados */
   padding: 10px 20px;        /* Más espacio interno */
   font-size: 1em;          /* Letra un poco más grande */
@@ -196,10 +196,10 @@ p, span, label {
   font-weight: 600;
 }
 
-.btn_eiminar, .btn_editar {
+.btn_eliminar_stock, .btn_editar {
   background-color: #a362ff;
 }
-.btn_eiminar:hover {
+.btn_eliminar_stock:hover {
   background-color: #7b32ff;
   box-shadow: 0 5px 12px rgba(123, 50, 255, 0.6);
 }
